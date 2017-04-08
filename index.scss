@@ -1,0 +1,77 @@
+                                          // FUNCTIONS
+
+// Some Maths
+@function pi() {
+  @return 3.141592653589793238462643383279502884197169;
+}
+@function rad($angle){
+  $unit: unit($angle);
+  $unitless: $angle / ($angle * 0 + 1);
+  // If the angle had 'deg' as unit, convert to radians
+  @if $unit == deg{
+    $unitless:$unitless / 180 * pi();
+  }
+  @return $unitless;
+}
+
+@function sin($angle) {
+  $sin: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+  }
+  @return $sin;
+}
+
+@function cos($angle) {
+  $cos: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+  }
+  @return $cos;
+}
+
+// Tracking in arbitrary unit: Letter-spacing in ems
+@function letter-Spacing($tracking){
+  @return ($tracking/1000) + em
+};
+
+// Leading in pt: Line-height in %
+
+@function line-height($leading,$font-size){
+  @return (100*($leading/$font-size));
+};
+
+// Font Weight conversion
+
+$weight100:thin;
+$weight200:Extra Light;
+$weight300:Light;
+$weight400:Normal;
+$weight500:Medium;
+$weight600:Semibold;
+$weight700:Bold;
+$weight800:Heavy;
+$weight900:Black;
+
+p{
+  font-weight:$weight200;
+}
+
+            //SHADOW
+// Photoshop-shadow angle in degrees: CSS shadow angle in pixels
+  // horizontal Shadow
+@function horizontal-Shadow($shadowAngle,$shadowDistance){
+  @return cos($shadowAngle) * $shadowDistance + px
+};
+  // Vertical Shadow
+@function vertical-Shadow($shadowAngle,$shadowDistance){
+  @return sin($shadowAngle) * $shadowDistance + px
+};
+  // Blur-radius
+@function blur-Radius($photoshopBlurSize,$photoshopBlurSpread){
+  @return $photoshopBlurSize * ($photoshopBlurSpread / 100) + px
+};
